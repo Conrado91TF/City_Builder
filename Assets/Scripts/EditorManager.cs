@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 
 
 
@@ -9,9 +9,11 @@ public class EditorManager : MonoBehaviour
     public UIManager uiManager;
 
     [Header("Referencias")]
-    public GameObject[] prefabs;     // Prefabs disponibles
+    public GameObject[] prefabs;
+    public GridSystem gridSystem;
 
     private GameObject objetoTemporal;
+    private GameObject objetoSeleccionado;
 
     void Update()
     {
@@ -21,22 +23,34 @@ public class EditorManager : MonoBehaviour
                 HandleCreate();
                 break;
             case EditorState.Move:
-                // luego aÒadiremos esto
+                HandleMove();
                 break;
             case EditorState.Rotate:
-                // luego aÒadiremos esto
+                HandleRotate();
                 break;
             case EditorState.Delete:
-                // luego aÒadiremos esto
+                HandleDelete();
                 break;
-    }   }
+        }
+    }
 
     public void CambiarEstado(EditorState nuevoEstado)
     {
+        // Limpia objetos temporales o selecci√≥n previa
+        if (objetoTemporal != null)
+        {
+            Destroy(objetoTemporal);
+            objetoTemporal = null;
+        }
+        objetoSeleccionado = null;
+
         currentState = nuevoEstado;
         Debug.Log("Estado cambiado a: " + currentState);
     }
 
+    // ----------------------------------------------------
+    // üß± CREAR OBJETOS
+    // ----------------------------------------------------
     void HandleCreate()
     {
         if (objetoTemporal == null) return;
@@ -44,7 +58,11 @@ public class EditorManager : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            objetoTemporal.transform.position = hit.point;
+            Vector3 gridPos = hit.point;
+            if (gridSystem != null)
+                gridPos = gridSystem.GetSnappedPosition(hit.point);
+
+            objetoTemporal.transform.position = gridPos;
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -61,13 +79,103 @@ public class EditorManager : MonoBehaviour
             objetoTemporal = Instantiate(prefabs[index]);
             currentState = EditorState.Create;
         }
-        else
+    }
+
+    // ----------------------------------------------------
+    // üîπ MOVER OBJETOS
+    // ----------------------------------------------------
+    void HandleMove()
+    {
+        // Clic izquierdo = seleccionar objeto
+        if (Input.GetMouseButtonDown(0))
         {
-            Debug.LogWarning("Õndice fuera de rango al intentar crear prefab.");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                if (hit.collider != null)
+                {
+                    objetoSeleccionado = hit.collider.gameObject;
+                    Debug.Log("Objeto seleccionado para mover: " + objetoSeleccionado.name);
+                }
+            }
+        }
+
+        // Si tenemos objeto seleccionado, seguir el rat√≥n
+        if (objetoSeleccionado != null)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Vector3 gridPos = hit.point;
+                if (gridSystem != null)
+                    gridPos = gridSystem.GetSnappedPosition(hit.point);
+
+                objetoSeleccionado.transform.position = gridPos;
+
+                // Clic derecho = confirmar movimiento
+                if (Input.GetMouseButtonDown(1))
+                {
+                    objetoSeleccionado = null;
+                    currentState = EditorState.Neutral;
+                    Debug.Log("Movimiento completado.");
+                }
+            }
         }
     }
-   
 
+    // ----------------------------------------------------
+    // üîÅ ROTAR OBJETOS
+    // ----------------------------------------------------
+    void HandleRotate()
+    {
+        // Seleccionar con clic izquierdo
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                objetoSeleccionado = hit.collider.gameObject;
+                Debug.Log("Objeto seleccionado para rotar: " + objetoSeleccionado.name);
+            }
+        }
+
+        // Rotar con clic derecho
+        if (objetoSeleccionado != null && Input.GetMouseButtonDown(1))
+        {
+            objetoSeleccionado.transform.Rotate(Vector3.up, 90f);
+            Debug.Log("Objeto rotado 90 grados: " + objetoSeleccionado.name);
+        }
+
+        // Salir del modo con tecla ESC
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            objetoSeleccionado = null;
+            currentState = EditorState.Neutral;
+        }
+    }
+
+    // ----------------------------------------------------
+    // ‚ùå ELIMINAR OBJETOS
+    // ----------------------------------------------------
+    void HandleDelete()
+    {
+        // Clic izquierdo = eliminar objeto
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                GameObject obj = hit.collider.gameObject;
+                Destroy(obj);
+                Debug.Log("Objeto eliminado: " + obj.name);
+            }
+        }
+
+        // Tecla ESC = salir del modo eliminar
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            currentState = EditorState.Neutral;
+        }
+    }
 }
-
 
