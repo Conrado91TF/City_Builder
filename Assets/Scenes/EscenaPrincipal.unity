@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 177614470}
   m_Layer: 0
   m_Name: Base
-  m_TagString: base
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -632,7 +632,7 @@ MonoBehaviour:
   width: 20
   height: 20
   cellSize: 1
-  lineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  lineColor: {r: 0, g: 0, b: 0, a: 1}
   mostrarGrid: 1
 --- !u!114 &211721589
 MonoBehaviour:
@@ -1394,6 +1394,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelUI: {fileID: 1195402421}
+  editorManager: {fileID: 313865868}
+  catalogoUI: {fileID: 0}
   showY: 150
   hideY: -300
   animDuration: 0.5
@@ -1858,14 +1860,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 313865868}
-        m_TargetAssemblyTypeName: EditorManager, Assembly-CSharp
-        m_MethodName: StartCreating
-        m_Mode: 3
+      - m_Target: {fileID: 671021389}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: BotonEliminar
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3466,14 +3468,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 313865868}
-        m_TargetAssemblyTypeName: EditorManager, Assembly-CSharp
-        m_MethodName: StartCreating
-        m_Mode: 3
+      - m_Target: {fileID: 671021389}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: BotonMover
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3735,14 +3737,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 313865868}
-        m_TargetAssemblyTypeName: EditorManager, Assembly-CSharp
-        m_MethodName: StartCreating
-        m_Mode: 3
+      - m_Target: {fileID: 671021389}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: BotonRotar
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3966,6 +3968,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelUI: {fileID: 181122218}
+  editorManager: {fileID: 0}
+  catalogoUI: {fileID: 0}
   showY: 0
   hideY: 0
   animDuration: 0

@@ -5,6 +5,8 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     public RectTransform panelUI;
+    public EditorManager editorManager;
+    public CatalogoUI catalogoUI;
 
     [SerializeField]
     public float showY = 0f;       // Posición Y cuando se muestra
@@ -76,4 +78,36 @@ public class UIManager : MonoBehaviour
             .setEase(hideEaseType);
         isVisible = false;
     }
+    public void BotonCrear()
+    {
+        editorManager.CambiarEstado(EditorManager.EditorState.Create);
+
+        if (catalogoUI != null)
+            catalogoUI.gameObject.SetActive(true);
+    }
+
+    public void BotonMover()
+    {
+        editorManager.CambiarEstado(EditorManager.EditorState.Move);
+
+        if (catalogoUI != null)
+            catalogoUI.gameObject.SetActive(false);
+    }
+
+    public void BotonRotar()
+    {
+        editorManager.CambiarEstado(EditorManager.EditorState.Rotate);
+
+        if (catalogoUI != null)
+            catalogoUI.gameObject.SetActive(false);
+    }
+
+    public void BotonEliminar()
+    {
+        editorManager.CambiarEstado(EditorManager.EditorState.Delete);
+
+        if (catalogoUI != null)
+            catalogoUI.gameObject.SetActive(false);
+    }
 }
+

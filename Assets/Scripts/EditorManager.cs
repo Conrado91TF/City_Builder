@@ -4,9 +4,9 @@
 
 public class EditorManager : MonoBehaviour
 {
-    public enum EditorState { Neutral, Create, Move, Rotate, Delete }
-    public EditorState currentState = EditorState.Neutral;
-    public UIManager uiManager;
+    public enum EditorState { Neutral, Create, Move, Rotate, Delete } // Estados del editor
+    public EditorState currentState = EditorState.Neutral;// Estado actual
+    public UIManager uiManager; // Referencia al UIManager 
 
     [Header("Referencias")]
     public GameObject[] prefabs;
@@ -81,6 +81,20 @@ public class EditorManager : MonoBehaviour
         }
     }
 
+    public void StartCreating(GameObject prefab)
+    {
+        if (prefab == null) return;
+
+        // Elimina cualquier objeto temporal previo
+        if (objetoTemporal != null)
+            Destroy(objetoTemporal);
+
+        // Instancia el nuevo prefab
+        objetoTemporal = Instantiate(prefab);
+        currentState = EditorState.Create;
+
+        Debug.Log("Creando desde catálogo: " + prefab.name);
+    }
     // ----------------------------------------------------
     // 🔹 MOVER OBJETOS
     // ----------------------------------------------------
