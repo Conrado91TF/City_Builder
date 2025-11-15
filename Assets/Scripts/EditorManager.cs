@@ -51,7 +51,7 @@ public class EditorManager : MonoBehaviour
     // ----------------------------------------------------
     // 🧱 CREAR OBJETOS
     // ----------------------------------------------------
-    void HandleCreate()
+    void HandleCreate() // Maneja la creación de objetos
     {
         if (objetoTemporal == null) return;
 
@@ -66,13 +66,16 @@ public class EditorManager : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
+                // Reproduce sonido al colocar el objeto
+                AudioManager.instance.PlayColocar();
+
                 objetoTemporal = null;
                 currentState = EditorState.Neutral;
             }
         }
     }
 
-    public void StartCreating(int index)
+    public void StartCreating(int index) // Iniciar creación desde índice de prefab
     {
         if (index >= 0 && index < prefabs.Length)
         {
@@ -182,6 +185,8 @@ public class EditorManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+           AudioManager.instance.PlayEliminar();
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
             {
