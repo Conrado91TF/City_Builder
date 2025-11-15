@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: building-o
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d19cc1627778a6e48b652e0b1c2ca6ce, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d19cc1627778a6e48b652e0b1c2ca6ce, type: 3}
+      propertyPath: m_TagString
+      value: Prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -52,8 +52,45 @@ PrefabInstance:
       propertyPath: m_Name
       value: bridge-pillar
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bfdbe7da9e9166a45aa3de8700b0b997, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bfdbe7da9e9166a45aa3de8700b0b997, type: 3}
+      propertyPath: m_TagString
+      value: Prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bfdbe7da9e9166a45aa3de8700b0b997, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8879305829392864089}
   m_SourcePrefab: {fileID: 100100000, guid: bfdbe7da9e9166a45aa3de8700b0b997, type: 3}
+--- !u!1 &5403506689618163654 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bfdbe7da9e9166a45aa3de8700b0b997, type: 3}
+  m_PrefabInstance: {fileID: 5061049159724698263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &8879305829392864089
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5403506689618163654}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.099999994, y: 0.5, z: 0.099999994}
+  m_Center: {x: 0, y: 0.25, z: 0}

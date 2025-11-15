@@ -52,8 +52,45 @@ PrefabInstance:
       propertyPath: m_Name
       value: road-straight-barrier-half
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 00b2b698e18983a4fbae9ecb7a24a818, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 00b2b698e18983a4fbae9ecb7a24a818, type: 3}
+      propertyPath: m_TagString
+      value: Prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 00b2b698e18983a4fbae9ecb7a24a818, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3802190113890432059}
   m_SourcePrefab: {fileID: 100100000, guid: 00b2b698e18983a4fbae9ecb7a24a818, type: 3}
+--- !u!1 &8745816151635703907 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 00b2b698e18983a4fbae9ecb7a24a818, type: 3}
+  m_PrefabInstance: {fileID: 8475221041593156914}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &-3802190113890432059
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745816151635703907}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5000002, y: 0.08, z: 1.0000002}
+  m_Center: {x: 0, y: 0.04, z: 0}

@@ -4,15 +4,13 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - base
-  - pared1
-  - pared2
-  - pared3
+  - Prefab
+  - Prefabs
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Edificios
   - Water
   - UI
   - 

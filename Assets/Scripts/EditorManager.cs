@@ -77,6 +77,9 @@ public class EditorManager : MonoBehaviour
         if (index >= 0 && index < prefabs.Length)
         {
             objetoTemporal = Instantiate(prefabs[index]);
+            
+            objetoTemporal.layer = LayerMask.NameToLayer("Edificios");
+            
             currentState = EditorState.Create;
         }
     }
@@ -91,6 +94,7 @@ public class EditorManager : MonoBehaviour
 
         // Instancia el nuevo prefab
         objetoTemporal = Instantiate(prefab);
+        objetoTemporal.layer = LayerMask.NameToLayer("Edificios");
         currentState = EditorState.Create;
 
         Debug.Log("Creando desde catálogo: " + prefab.name);
@@ -100,6 +104,7 @@ public class EditorManager : MonoBehaviour
     // ----------------------------------------------------
     void HandleMove()
     {
+        int layerMask = LayerMask.GetMask("Edificios");
         // Clic izquierdo = seleccionar objeto
         if (Input.GetMouseButtonDown(0))
         {
@@ -173,23 +178,38 @@ public class EditorManager : MonoBehaviour
     // ----------------------------------------------------
     void HandleDelete()
     {
-        // Clic izquierdo = eliminar objeto
+        int layerMask = LayerMask.GetMask("Edificios");
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
             {
                 GameObject obj = hit.collider.gameObject;
-                Destroy(obj);
-                Debug.Log("Objeto eliminado: " + obj.name);
+
+                if (obj.CompareTag("Prefab"))
+                {
+                    // Animación segura de eliminación
+                    LeanTween.scale(obj, Vector3.zero, 0.3f).setOnComplete(() =>
+                    {
+                        obj.SetActive(false);
+                        Destroy(obj, 0.05f);
+                    });
+
+                    Debug.Log("Objeto eliminado: " + obj.name);
+                }
+                else
+                {
+                    Debug.Log("No se puede eliminar: " + obj.name);
+                }
             }
         }
 
-        // Tecla ESC = salir del modo eliminar
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             currentState = EditorState.Neutral;
         }
     }
-}
+    
+}   
 
