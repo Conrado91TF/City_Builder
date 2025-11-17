@@ -8,17 +8,20 @@ public class EditorManager : MonoBehaviour
     public EditorState currentState = EditorState.Neutral;// Estado actual
     public UIManager uiManager; // Referencia al UIManager 
 
-    [Header("Referencias")]
+    [SerializeField]
     public GameObject[] prefabs;
     public GridSystem gridSystem;
-
+    // Referencia al sistema de cuadrícula
     private GameObject objetoTemporal;
     private GameObject objetoSeleccionado;
+    
 
     void Update()
     {
+        // Maneja el comportamiento según el estado actual
         switch (currentState)
         {
+            // Estados del editor
             case EditorState.Create:
                 HandleCreate();
                 break;
@@ -43,7 +46,7 @@ public class EditorManager : MonoBehaviour
             objetoTemporal = null;
         }
         objetoSeleccionado = null;
-
+        // Cambia el estado actual
         currentState = nuevoEstado;
         Debug.Log("Estado cambiado a: " + currentState);
     }
@@ -63,7 +66,7 @@ public class EditorManager : MonoBehaviour
                 gridPos = gridSystem.GetSnappedPosition(hit.point);
 
             objetoTemporal.transform.position = gridPos;
-
+            // Colocar objeto con clic izquierdo
             if (Input.GetMouseButtonDown(0))
             {
                 // Reproduce sonido al colocar el objeto
@@ -71,12 +74,14 @@ public class EditorManager : MonoBehaviour
 
                 objetoTemporal = null;
                 currentState = EditorState.Neutral;
+                
             }
         }
     }
 
     public void StartCreating(int index) // Iniciar creación desde índice de prefab
     {
+        // Elimina cualquier objeto temporal previo
         if (index >= 0 && index < prefabs.Length)
         {
             objetoTemporal = Instantiate(prefabs[index]);
@@ -111,6 +116,7 @@ public class EditorManager : MonoBehaviour
         // Clic izquierdo = seleccionar objeto
         if (Input.GetMouseButtonDown(0))
         {
+            //Posición del ratón y raycast
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
@@ -125,6 +131,7 @@ public class EditorManager : MonoBehaviour
         // Si tenemos objeto seleccionado, seguir el ratón
         if (objetoSeleccionado != null)
         {
+            // Posición del ratón y raycast EN LA CAPA DE EDIFICIOS
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
@@ -137,6 +144,7 @@ public class EditorManager : MonoBehaviour
                 // Clic derecho = confirmar movimiento
                 if (Input.GetMouseButtonDown(1))
                 {
+                    // Confirmar movimiento
                     objetoSeleccionado = null;
                     currentState = EditorState.Neutral;
                     Debug.Log("Movimiento completado.");
@@ -153,6 +161,7 @@ public class EditorManager : MonoBehaviour
         // Seleccionar con clic izquierdo
         if (Input.GetMouseButtonDown(0))
         {
+            //Posición del ratón y raycast
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
@@ -179,21 +188,25 @@ public class EditorManager : MonoBehaviour
     // ----------------------------------------------------
     // ❌ ELIMINAR OBJETOS
     // ----------------------------------------------------
-    void HandleDelete()
+    void HandleDelete() 
     {
-        int layerMask = LayerMask.GetMask("Edificios");
+        // Maneja la eliminación de objetos
+        int layerMask = LayerMask.GetMask("Edificios"); 
+        // Capa de edificios
 
         if (Input.GetMouseButtonDown(0))
         {
-           AudioManager.instance.PlayEliminar();
-
+            // Clic izquierdo para eliminar
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
             {
+                // Objeto golpeado
                 GameObject obj = hit.collider.gameObject;
 
                 if (obj.CompareTag("Prefab"))
                 {
+                    AudioManager.instance.PlayEliminar();
+                    // Reproduce sonido al eliminar objeto
                     // Animación segura de eliminación
                     LeanTween.scale(obj, Vector3.zero, 0.3f).setOnComplete(() =>
                     {
@@ -208,10 +221,11 @@ public class EditorManager : MonoBehaviour
                     Debug.Log("No se puede eliminar: " + obj.name);
                 }
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        } 
+        if (Input.GetKeyDown(KeyCode.Escape)) 
         {
+            // Tecla ESC para salir del modo eliminar
+            // Salir del modo eliminar
             currentState = EditorState.Neutral;
         }
     }

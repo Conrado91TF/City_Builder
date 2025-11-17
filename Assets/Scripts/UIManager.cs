@@ -19,8 +19,9 @@ public class UIManager : MonoBehaviour
     public float animDurationX = 0.5f;
     
     [SerializeField]
-    public LeanTweenType showEaseType = LeanTweenType.easeOutBack;
-    public LeanTweenType hideEaseType = LeanTweenType.easeInBack;
+    public LeanTweenType showEaseType = LeanTweenType.easeOutBack; // Tipo de easing para mostrar
+    public LeanTweenType hideEaseType = LeanTweenType.easeInBack; // Tipo de easing para ocultar
+    
 
     private bool isVisible = false;
 
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour
 
     public void ToggleUIX()
     {
+        // Alternar visibilidad en el eje X
         if (isVisible)
             HideUIX();
         else
@@ -40,6 +42,7 @@ public class UIManager : MonoBehaviour
     }
     public void ToggleUI()
     {
+        // Alternar visibilidad en el eje Y
         if (isVisible)
             HideUI();
         else
@@ -48,6 +51,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowUIX()
     {
+        // Verificar si panelUI no es nulo
         if (panelUI == null) return;
         LeanTween.moveX(panelUI, showX, animDurationX)
             .setEase(showEaseType);
@@ -56,6 +60,7 @@ public class UIManager : MonoBehaviour
     
     public void HideUIX()
     {
+        // Verificar si panelUI no es nulo
         if (panelUI == null) return;
         LeanTween.moveX(panelUI, hideX, animDurationX)
             .setEase(hideEaseType);
@@ -63,6 +68,7 @@ public class UIManager : MonoBehaviour
     }
     public void ShowUI()
     {
+        // Verificar si panelUI no es nulo
         if (panelUI == null) return;
 
         LeanTween.moveY(panelUI, showY, animDuration)
@@ -72,6 +78,7 @@ public class UIManager : MonoBehaviour
 
     public void HideUI()
     {
+        // Verificar si panelUI no es nulo
         if (panelUI == null) return;
 
         LeanTween.moveY(panelUI, hideY, animDuration)
@@ -80,34 +87,51 @@ public class UIManager : MonoBehaviour
     }
     public void BotonCrear()
     {
+        // Cambiar el estado del editor a Crear
         editorManager.CambiarEstado(EditorManager.EditorState.Create);
 
         if (catalogoUI != null)
             catalogoUI.gameObject.SetActive(true);
+
     }
 
     public void BotonMover()
     {
+        // Cambiar el estado del editor a Mover
         editorManager.CambiarEstado(EditorManager.EditorState.Move);
 
         if (catalogoUI != null)
             catalogoUI.gameObject.SetActive(false);
+
+       
     }
 
     public void BotonRotar()
     {
+        // Cambiar el estado del editor a Rotar
         editorManager.CambiarEstado(EditorManager.EditorState.Rotate);
 
         if (catalogoUI != null)
             catalogoUI.gameObject.SetActive(false);
+
+        
     }
 
     public void BotonEliminar()
     {
+        // Cambiar el estado del editor a Eliminar
         editorManager.CambiarEstado(EditorManager.EditorState.Delete);
 
         if (catalogoUI != null)
             catalogoUI.gameObject.SetActive(false);
+
     }
+    
+    
+
+   
 }
+
+
+
 

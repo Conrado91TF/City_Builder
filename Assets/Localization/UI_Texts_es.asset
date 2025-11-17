@@ -19,23 +19,23 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 557879820288
-    m_Localized: 'Pulsar para crear
-
-'
+    m_Localized: "Si pulsamos \"Crear\", elegimos el metodo de construcci\xF3n y
+      sus diferentes prefabs.\n"
     m_Metadata:
       m_Items: []
   - m_Id: 1748181352448
-    m_Localized: "Bot\xF3n mover mueves el objeto"
+    m_Localized: "Pulsa \"Mover\", tecla del rat\xF3n izquierdo seleccionamos y con
+      la tecla derecha soltamos."
     m_Metadata:
       m_Items: []
   - m_Id: 2208715931648
-    m_Localized: Rotamos el objecto
+    m_Localized: "Pulsa \"Rotar\", tecla del rat\xF3n izquierdo selecionamos encima
+      y con la tecla derecha rotamos"
     m_Metadata:
       m_Items: []
   - m_Id: 2457169723392
-    m_Localized: 'Si te cansa del objecto lo puede eliminar
-
-'
+    m_Localized: "Pulsa \"Eliminar\", luego con la tecla izquierda Elimanamos la
+      construcci\xF3n.\n"
     m_Metadata:
       m_Items: []
   references:
