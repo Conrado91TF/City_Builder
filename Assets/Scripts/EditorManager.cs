@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-
-
 public class EditorManager : MonoBehaviour
 {
     public enum EditorState { Neutral, Create, Move, Rotate, Delete } // Estados del editor
@@ -14,6 +12,7 @@ public class EditorManager : MonoBehaviour
     // Referencia al sistema de cuadrícula
     private GameObject objetoTemporal;
     private GameObject objetoSeleccionado;
+
     
 
     void Update()
@@ -57,14 +56,14 @@ public class EditorManager : MonoBehaviour
     void HandleCreate() // Maneja la creación de objetos
     {
         if (objetoTemporal == null) return;
-
+        // Posición del ratón y raycast
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
-        {
+        {    // Raycast para detectar el suelo
             Vector3 gridPos = hit.point;
             if (gridSystem != null)
                 gridPos = gridSystem.GetSnappedPosition(hit.point);
-
+            // Actualiza la posición del objeto temporal
             objetoTemporal.transform.position = gridPos;
             // Colocar objeto con clic izquierdo
             if (Input.GetMouseButtonDown(0))
@@ -72,9 +71,23 @@ public class EditorManager : MonoBehaviour
                 // Reproduce sonido al colocar el objeto
                 AudioManager.instance.PlayColocar();
 
+                // Guardamos el objeto final antes de eliminar el temporal
+                GameObject objFinal = objetoTemporal;
+
                 objetoTemporal = null;
                 currentState = EditorState.Neutral;
-                
+                // Cambia al estado neutral
+            
+                if (objFinal != null)
+                {
+                    // Ponemos escala inicial pequeña
+                    objFinal.transform.localScale = Vector3.zero;
+
+                    // Animación de aparición
+                    LeanTween.scale(objFinal, Vector3.one, 0.25f)
+                        .setEase(LeanTweenType.easeOutBack);
+
+                }
             }
         }
     }
@@ -84,11 +97,12 @@ public class EditorManager : MonoBehaviour
         // Elimina cualquier objeto temporal previo
         if (index >= 0 && index < prefabs.Length)
         {
-            objetoTemporal = Instantiate(prefabs[index]);
-            
-            objetoTemporal.layer = LayerMask.NameToLayer("Edificios");
-            
-            currentState = EditorState.Create;
+            objetoTemporal = Instantiate(prefabs[index]); 
+            // Instancia el prefab seleccionado
+            objetoTemporal.layer = LayerMask.NameToLayer("Edificios"); 
+            // Asigna la capa "Edificios"
+            currentState = EditorState.Create; 
+            // Cambia al estado de creación
         }
     }
 
@@ -104,6 +118,7 @@ public class EditorManager : MonoBehaviour
         objetoTemporal = Instantiate(prefab);
         objetoTemporal.layer = LayerMask.NameToLayer("Edificios");
         currentState = EditorState.Create;
+       
 
         Debug.Log("Creando desde catálogo: " + prefab.name);
     }
@@ -112,7 +127,7 @@ public class EditorManager : MonoBehaviour
     // ----------------------------------------------------
     void HandleMove()
     {
-        int layerMask = LayerMask.GetMask("Edificios");
+       int layerMask = LayerMask.GetMask("Edificios");
         // Clic izquierdo = seleccionar objeto
         if (Input.GetMouseButtonDown(0))
         {
@@ -120,8 +135,10 @@ public class EditorManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                // Raycast detectando en la capa de edificios
                 if (hit.collider != null)
                 {
+                    // Objeto golpeado en la capa de edificios
                     objetoSeleccionado = hit.collider.gameObject;
                     Debug.Log("Objeto seleccionado para mover: " + objetoSeleccionado.name);
                 }
@@ -135,15 +152,17 @@ public class EditorManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                // Actualiza la posición del objeto seleccionado
                 Vector3 gridPos = hit.point;
                 if (gridSystem != null)
                     gridPos = gridSystem.GetSnappedPosition(hit.point);
-
+                // Ajusta a la cuadrícula si es necesario
                 objetoSeleccionado.transform.position = gridPos;
 
                 // Clic derecho = confirmar movimiento
                 if (Input.GetMouseButtonDown(1))
                 {
+                    AudioManager.instance.PlayColocar();
                     // Confirmar movimiento
                     objetoSeleccionado = null;
                     currentState = EditorState.Neutral;
@@ -173,6 +192,8 @@ public class EditorManager : MonoBehaviour
         // Rotar con clic derecho
         if (objetoSeleccionado != null && Input.GetMouseButtonDown(1))
         {
+            AudioManager.instance.PlayRotar();
+            // Rota el objeto 90 grados alrededor del eje Y
             objetoSeleccionado.transform.Rotate(Vector3.up, 90f);
             Debug.Log("Objeto rotado 90 grados: " + objetoSeleccionado.name);
         }
@@ -180,6 +201,7 @@ public class EditorManager : MonoBehaviour
         // Salir del modo con tecla ESC
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            // Salir del modo rotar
             objetoSeleccionado = null;
             currentState = EditorState.Neutral;
         }
@@ -190,7 +212,7 @@ public class EditorManager : MonoBehaviour
     // ----------------------------------------------------
     void HandleDelete() 
     {
-        // Maneja la eliminación de objetos
+       // Maneja la eliminación de objetos
         int layerMask = LayerMask.GetMask("Edificios"); 
         // Capa de edificios
 
@@ -205,6 +227,7 @@ public class EditorManager : MonoBehaviour
 
                 if (obj.CompareTag("Prefab"))
                 {
+                    // Elimina el objeto con animación
                     AudioManager.instance.PlayEliminar();
                     // Reproduce sonido al eliminar objeto
                     // Animación segura de eliminación

@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PanelCategoriasUI : MonoBehaviour
 {
-    [Header("Paneles")]
+    [SerializeField]
     public RectTransform panelComercio;
     public RectTransform panelIndustria;
     public RectTransform panelResidencias;
     public RectTransform panelCarreteras;
-
-    [Header("Animación")]
+    // Configuraciones de animación
+    [SerializeField]
     public float showX = 0f;
     public float hideX = 500f;
     public float animTime = 0.5f;
@@ -17,7 +17,7 @@ public class PanelCategoriasUI : MonoBehaviour
     // Estado actual del panel activo
     private RectTransform activePanel = null;
     private bool isTransitioning = false;
-
+    // Inicialización
     void Start()
     {
         // Los paneles se ocultan al iniciar al juego
@@ -25,6 +25,7 @@ public class PanelCategoriasUI : MonoBehaviour
         OcultarInstantaneo(panelIndustria);
         OcultarInstantaneo(panelResidencias);
         OcultarInstantaneo(panelCarreteras);
+        // No hay panel activo al inicio
     }
 
     void OcultarInstantaneo(RectTransform panel)
@@ -33,6 +34,7 @@ public class PanelCategoriasUI : MonoBehaviour
         if (panel == null) return;
         panel.anchoredPosition = new Vector2(hideX, panel.anchoredPosition.y);
         panel.gameObject.SetActive(false);
+        // Asegurarse de que no haya panel activo al inicio
     }
 
     void ShowPanel(RectTransform panel)
@@ -53,6 +55,7 @@ public class PanelCategoriasUI : MonoBehaviour
             .setEase(easeOut)
             .setOnComplete(() =>
             {
+                // Actualizar el panel activo
                 activePanel = panel;
                 isTransitioning = false;
             });
@@ -68,31 +71,28 @@ public class PanelCategoriasUI : MonoBehaviour
         .setEase(easeIn)
         .setOnComplete(() =>
         {
+            // Desactivar el panel después de la animación
             panel.gameObject.SetActive(false);
-
+            // Actualizar el panel activo si es necesario
             if (updateActive && activePanel == panel)
                 activePanel = null;
-
+            // Finalizar la transición
             isTransitioning = false;
         });
     }
-
-    // ==========================
     // BOTONES PRINCIPALES
-    // ==========================
     // Métodos para abrir cada panel individualmente con los botones principales
     public void AbrirComercio() => ShowPanel(panelComercio);
     public void AbrirIndustria() => ShowPanel(panelIndustria);
     public void AbrirResidencias() => ShowPanel(panelResidencias);
     public void AbrirCarreteras() => ShowPanel(panelCarreteras);
-
-    // ==========================
+    
     // BOTÓN X
-    // ==========================
     //  Cerrar el panel activo con el botón X
     public void CerrarPanelActual()
     {
         if (activePanel != null)
             HidePanel(activePanel);
+             
     }
 }

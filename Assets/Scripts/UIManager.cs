@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
+using UnityEngine.Localization.Settings;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
@@ -21,7 +22,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     public LeanTweenType showEaseType = LeanTweenType.easeOutBack; // Tipo de easing para mostrar
     public LeanTweenType hideEaseType = LeanTweenType.easeInBack; // Tipo de easing para ocultar
-    
+
+    [SerializeField]
+    TextMeshProUGUI UI_Texts;
 
     private bool isVisible = false;
 
@@ -53,6 +56,7 @@ public class UIManager : MonoBehaviour
     {
         // Verificar si panelUI no es nulo
         if (panelUI == null) return;
+        // Animar la posición X para mostrar
         LeanTween.moveX(panelUI, showX, animDurationX)
             .setEase(showEaseType);
         isVisible = true;
@@ -62,6 +66,7 @@ public class UIManager : MonoBehaviour
     {
         // Verificar si panelUI no es nulo
         if (panelUI == null) return;
+        // Animar la posición X para ocultar
         LeanTween.moveX(panelUI, hideX, animDurationX)
             .setEase(hideEaseType);
         isVisible = false;
@@ -70,7 +75,7 @@ public class UIManager : MonoBehaviour
     {
         // Verificar si panelUI no es nulo
         if (panelUI == null) return;
-
+        // Animar la posición Y para mostrar
         LeanTween.moveY(panelUI, showY, animDuration)
             .setEase(showEaseType);
         isVisible = true;
@@ -80,26 +85,29 @@ public class UIManager : MonoBehaviour
     {
         // Verificar si panelUI no es nulo
         if (panelUI == null) return;
-
+        // Animar la posición Y para ocultar
         LeanTween.moveY(panelUI, hideY, animDuration)
             .setEase(hideEaseType);
         isVisible = false;
+        // Ocultar el catálogo si está abierto
     }
     public void BotonCrear()
     {
+        // Actualizar el texto del UI
+        UI_Texts.text = LocalizationSettings.StringDatabase.GetLocalizedString("UI_Texts", "_crear");
         // Cambiar el estado del editor a Crear
-        editorManager.CambiarEstado(EditorManager.EditorState.Create);
-
         if (catalogoUI != null)
             catalogoUI.gameObject.SetActive(true);
-
+        
     }
 
     public void BotonMover()
     {
+        // Actualizar el texto del UI
+        UI_Texts.text = LocalizationSettings.StringDatabase.GetLocalizedString("UI_Texts", "_mover");
         // Cambiar el estado del editor a Mover
         editorManager.CambiarEstado(EditorManager.EditorState.Move);
-
+        // Ocultar el catálogo si está abierto
         if (catalogoUI != null)
             catalogoUI.gameObject.SetActive(false);
 
@@ -108,9 +116,10 @@ public class UIManager : MonoBehaviour
 
     public void BotonRotar()
     {
+        UI_Texts.text = LocalizationSettings.StringDatabase.GetLocalizedString("UI_Texts", "_rotar");
         // Cambiar el estado del editor a Rotar
         editorManager.CambiarEstado(EditorManager.EditorState.Rotate);
-
+        // Ocultar el catálogo si está abierto
         if (catalogoUI != null)
             catalogoUI.gameObject.SetActive(false);
 
@@ -119,9 +128,10 @@ public class UIManager : MonoBehaviour
 
     public void BotonEliminar()
     {
+        UI_Texts.text = LocalizationSettings.StringDatabase.GetLocalizedString("UI_Texts", "_eliminar");
         // Cambiar el estado del editor a Eliminar
         editorManager.CambiarEstado(EditorManager.EditorState.Delete);
-
+        // Ocultar el catálogo si está abierto
         if (catalogoUI != null)
             catalogoUI.gameObject.SetActive(false);
 
