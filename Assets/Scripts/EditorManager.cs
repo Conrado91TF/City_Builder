@@ -7,6 +7,10 @@ public class EditorManager : MonoBehaviour
     public UIManager uiManager; // Referencia al UIManager 
 
     [SerializeField]
+    public GameObject gridIndicator;
+
+    
+    [SerializeField]
     public GameObject[] prefabs;
     public GridSystem gridSystem;
     // Referencia al sistema de cuadrícula
@@ -65,6 +69,9 @@ public class EditorManager : MonoBehaviour
                 gridPos = gridSystem.GetSnappedPosition(hit.point);
             // Actualiza la posición del objeto temporal
             objetoTemporal.transform.position = gridPos;
+            gridIndicator.SetActive(true);
+            gridIndicator.transform.position = gridPos;
+            // Muestra el indicador de cuadrícula
             // Colocar objeto con clic izquierdo
             if (Input.GetMouseButtonDown(0))
             {
@@ -77,15 +84,20 @@ public class EditorManager : MonoBehaviour
                 objetoTemporal = null;
                 currentState = EditorState.Neutral;
                 // Cambia al estado neutral
-            
+
+                gridIndicator.SetActive(false);
+                objetoTemporal = null;
+                currentState = EditorState.Neutral;
+
                 if (objFinal != null)
                 {
-                    // Ponemos escala inicial pequeña
-                    objFinal.transform.localScale = Vector3.zero;
-
                     // Animación de aparición
                     LeanTween.scale(objFinal, Vector3.one, 0.25f)
                         .setEase(LeanTweenType.easeOutBack);
+
+                    // Ponemos escala inicial pequeña
+                    objFinal.transform.localScale = Vector3.zero;
+
 
                 }
             }
@@ -158,10 +170,17 @@ public class EditorManager : MonoBehaviour
                     gridPos = gridSystem.GetSnappedPosition(hit.point);
                 // Ajusta a la cuadrícula si es necesario
                 objetoSeleccionado.transform.position = gridPos;
-
+                gridIndicator.SetActive(true);
+                gridIndicator.transform.position = gridPos;
+                // Muestra el indicador de cuadrícula al mover
                 // Clic derecho = confirmar movimiento
                 if (Input.GetMouseButtonDown(1))
                 {
+                    // Ocultar el indicador de cuadrícula
+                    gridIndicator.SetActive(false);
+                    objetoSeleccionado = null;
+                    currentState = EditorState.Neutral;
+
                     AudioManager.instance.PlayColocar();
                     // Confirmar movimiento
                     objetoSeleccionado = null;
